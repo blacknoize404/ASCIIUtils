@@ -25,6 +25,8 @@ public class ASCIIFont {
      */
     private int height;
 
+    private final boolean onlyLowerCases = true;
+
     public ASCIIFont() {
         glyphs = new HashMap<>();
         height = 0;
@@ -63,7 +65,10 @@ public class ASCIIFont {
      * @return el glifo requerido o null si no está registrado el carácter en la fuente
      */
     public ASCIIGlyph getGlyph(Character c) {
-        return this.glyphs.getOrDefault(c, glyphs.get('\0'));
+
+        if (onlyLowerCases) c = Character.toLowerCase(c);
+
+        return this.glyphs.getOrDefault(c, this.glyphs.get('\0'));
     }
 
     /**

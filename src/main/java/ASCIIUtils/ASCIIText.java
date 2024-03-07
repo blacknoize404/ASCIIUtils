@@ -20,11 +20,6 @@ import java.util.Arrays;
  */
 public class ASCIIText {
 
-    public static void main(String[] args) {
-        ASCIIText a = new ASCIIText(ASCIIFonts.MODERN);
-        System.out.println(a.getOf("Candela"));
-    }
-
     /**
      * Los tipos de fondos disponibles en opacidad ASCII.
      * <table>
@@ -379,7 +374,7 @@ public class ASCIIText {
     private int getTextWidth() {
 
         // Si el texto está vacío, tiene 0 unidades de ancho
-        if (this.text.isEmpty()) return 0;
+        if (this.text == null || this.text.isEmpty()) return 0;
 
         int maxWidth = 0;
 
@@ -389,6 +384,7 @@ public class ASCIIText {
         for (String line : lines) {
 
             int lineWidth = 0;
+//            System.out.println(maxWidth);
 
             // Por cada carácter en la línea
             for (char character : line.toCharArray()) {
@@ -397,6 +393,7 @@ public class ASCIIText {
 
                 // Añado a count el ancho
                 lineWidth += glyph.width();
+
             }
 
             // Añado los espacios definidos por el kerning entre las letras
@@ -406,7 +403,7 @@ public class ASCIIText {
             maxWidth = Math.max(maxWidth, lineWidth);
 
         }
-
+        System.out.println(maxWidth);
         return maxWidth;
     }
 
@@ -419,7 +416,7 @@ public class ASCIIText {
     private int getTextHeight() {
 
         // Si el texto está vacío, tiene 0 unidades de alto
-        if (this.text.isEmpty()) return 0;
+        if (this.text == null || this.text.isEmpty()) return 0;
 
         // Obtengo la cantidad de saltos de línea que hay en el texto
         int breakLinesCount = getCoincidencesIn(this.text, "\n");
