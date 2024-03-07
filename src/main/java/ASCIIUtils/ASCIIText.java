@@ -384,7 +384,6 @@ public class ASCIIText {
         for (String line : lines) {
 
             int lineWidth = 0;
-//            System.out.println(maxWidth);
 
             // Por cada carácter en la línea
             for (char character : line.toCharArray()) {
@@ -403,7 +402,7 @@ public class ASCIIText {
             maxWidth = Math.max(maxWidth, lineWidth);
 
         }
-        System.out.println(maxWidth);
+
         return maxWidth;
     }
 
