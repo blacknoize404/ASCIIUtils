@@ -1,7 +1,5 @@
 package ASCIIUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 
 /**
@@ -132,7 +130,6 @@ public final class ASCIIGlyph {
      *
      * @return dicha representación
      */
-    @NotNull
     public String toStringRepresentation() {
 
         StringBuilder sb = new StringBuilder();
@@ -154,7 +151,7 @@ public final class ASCIIGlyph {
 
     @Override
     public String toString() {
-        return "ASCII.ASCIIGlyph{" +
+        return "ASCIIGlyph{" +
                 "data=" + Arrays.toString(data) +
                 '}';
     }

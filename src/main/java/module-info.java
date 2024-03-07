@@ -1,0 +1,3 @@
+module ASCIIUtils {
+    exports ASCIIUtils;
+}

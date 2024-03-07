@@ -1,5 +1,7 @@
 package ASCIIUtils;
 
+import java.util.Arrays;
+
 /**
  * Interpreta textos y genera texto ASCII, dado un texto y una fuente.
  *
@@ -217,6 +219,7 @@ public class ASCIIText {
     public void fillMatrix() {
 
         if (this.text == null || this.text.isEmpty()) return;
+
 
         // Creo un nuevo grid con el tamaño de alto y ancho pre-calculado
         this.matrix = new Character[this.getHeight()][this.getWidth()];
@@ -464,6 +467,7 @@ public class ASCIIText {
 
         this.text = text;
         this.isModified = true;
+
         updateTextSize();
     }
 
@@ -549,8 +553,8 @@ public class ASCIIText {
         // el kerning, el texto o la fuente.
         if (!isModified) return representation;
 
-        // Lleno la matriz de caracteres si no está llena
-        if (matrix == null || matrix.length == 0) fillMatrix();
+        // Lleno la matriz de caracteres
+        fillMatrix();
 
         StringBuilder sb = new StringBuilder();
 
