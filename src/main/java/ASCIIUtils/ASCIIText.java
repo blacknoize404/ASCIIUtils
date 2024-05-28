@@ -20,6 +20,11 @@ import java.util.Arrays;
  */
 public class ASCIIText {
 
+
+    public static void main(String[] args) {
+
+    }
+
     /**
      * Los tipos de fondos disponibles en opacidad ASCII.
      * <table>
@@ -129,11 +134,13 @@ public class ASCIIText {
      * ya una para el mismo texto.
      * </p>
      * <p>
-     * Solo cambiará a true si se ha cambiado el texto o la fuente
+     * Solo cambiará a true si se ha cambiado el texto o la fuente,
+     * o el tamaño del kerning o del salto de línea.
      * y cambiará a false después de la primera vez que se genere
      * la matriz (la matriz siempre se generará de nuevo si este
      * atributo es true).
      * </p>
+     *
      */
     private boolean isModified = false;
 
