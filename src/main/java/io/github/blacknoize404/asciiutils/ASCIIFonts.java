@@ -1,4 +1,4 @@
-package ASCIIUtils;
+package io.github.blacknoize404.asciiutils;
 
 /**
  * Clase auxiliar que contiene todas las fuentes registradas
@@ -6,8 +6,8 @@ package ASCIIUtils;
  *
  * @author Barnés Inside
  * @version 0.1
- * @implNote Es requerido que todas las fuentes tengan un carácter
- * \0 nulo definido
+ * <p><b>Nota:</b> es requerido que todas las fuentes tengan un carácter
+ * {@code '\0'} nulo definido como glifo de respaldo.</p>
  */
 public final class ASCIIFonts {
 
@@ -31,9 +31,12 @@ public final class ASCIIFonts {
      ▓ ▓  ▓               ▓      ▓▓ ▓▓  ▓ ▓  ▓
      */
 
-    public static ASCIIFont MINIMAL = new ASCIIFont() {{
+    public static final ASCIIFont MINIMAL = minimal();
 
-        put('\0', ASCIIGlyph.from("" +
+    private static ASCIIFont minimal() {
+        ASCIIFont f = new ASCIIFont();
+
+        f.put('\0', ASCIIGlyph.from("" +
                 "       -" +
                 "▓▓▓▓▓▓▓-" +
                 "▓ ▓ ▓ ▓-" +
@@ -41,217 +44,217 @@ public final class ASCIIFonts {
                 "▓ ▓ ▓ ▓-" +
                 "▓▓▓▓▓▓▓"));
 
-        put('a', ASCIIGlyph.from("" +
+        f.put('a', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓-" +
                 "▓ ▓"));
-        put('á', ASCIIGlyph.from("" +
+        f.put('á', ASCIIGlyph.from("" +
                 "  ▓-" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓-" +
                 "▓ ▓"));
-        put('b', ASCIIGlyph.from("" +
+        f.put('b', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓ -" +
                 "▓ ▓-" +
                 "▓▓ -" +
                 "▓ ▓-" +
                 "▓▓ "));
-        put('c', ASCIIGlyph.from("" +
+        f.put('c', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓  -" +
                 "▓  -" +
                 "▓▓▓"));
-        put('d', ASCIIGlyph.from("" +
+        f.put('d', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓ -" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓ "));
-        put('e', ASCIIGlyph.from("" +
+        f.put('e', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓▓ -" +
                 "▓  -" +
                 "▓▓▓"));
-        put('é', ASCIIGlyph.from("" +
+        f.put('é', ASCIIGlyph.from("" +
                 " ▓▓-" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓▓ -" +
                 "▓  -" +
                 "▓▓▓"));
-        put('f', ASCIIGlyph.from("" +
+        f.put('f', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓▓ -" +
                 "▓  -" +
                 "▓  "));
-        put('g', ASCIIGlyph.from("" +
+        f.put('g', ASCIIGlyph.from("" +
                 "    -" +
                 " ▓▓▓-" +
                 "▓   -" +
                 "▓ ▓▓-" +
                 "▓  ▓-" +
                 "▓▓▓ "));
-        put('h', ASCIIGlyph.from("" +
+        f.put('h', ASCIIGlyph.from("" +
                 "   -" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓"));
-        put('i', ASCIIGlyph.from("" +
+        f.put('i', ASCIIGlyph.from("" +
                 "▓-" +
                 " -" +
                 "▓-" +
                 "▓-" +
                 "▓-" +
                 "▓"));
-        put('í', ASCIIGlyph.from("" +
+        f.put('í', ASCIIGlyph.from("" +
                 "▓▓-" +
                 "  -" +
                 "▓ -" +
                 "▓ -" +
                 "▓ -" +
                 "▓ "));
-        put('j', ASCIIGlyph.from("" +
+        f.put('j', ASCIIGlyph.from("" +
                 "   -" +
                 "▓  -" +
                 "▓  -" +
                 "▓  -" +
                 "▓ ▓-" +
                 "▓▓▓"));
-        put('k', ASCIIGlyph.from("" +
+        f.put('k', ASCIIGlyph.from("" +
                 "    -" +
                 "▓  ▓-" +
                 "▓  ▓-" +
                 "▓▓▓ -" +
                 "▓  ▓-" +
                 "▓  ▓"));
-        put('l', ASCIIGlyph.from("" +
+        f.put('l', ASCIIGlyph.from("" +
                 "   -" +
                 "▓  -" +
                 "▓  -" +
                 "▓  -" +
                 "▓  -" +
                 "▓▓▓"));
-        put('m', ASCIIGlyph.from("" +
+        f.put('m', ASCIIGlyph.from("" +
                 "     -" +
                 "▓▓ ▓▓-" +
                 "▓ ▓ ▓-" +
                 "▓   ▓-" +
                 "▓   ▓-" +
                 "▓   ▓"));
-        put('n', ASCIIGlyph.from("" +
+        f.put('n', ASCIIGlyph.from("" +
                 "    -" +
                 "▓▓ ▓-" +
                 "▓ ▓▓-" +
                 "▓  ▓-" +
                 "▓  ▓-" +
                 "▓  ▓"));
-        put('o', ASCIIGlyph.from("" +
+        f.put('o', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓"));
-        put('ó', ASCIIGlyph.from("" +
+        f.put('ó', ASCIIGlyph.from("" +
                 " ▓▓-" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓"));
-        put('p', ASCIIGlyph.from("" +
+        f.put('p', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓  "));
-        put('q', ASCIIGlyph.from("" +
+        f.put('q', ASCIIGlyph.from("" +
                 "    -" +
                 "▓▓▓ -" +
                 "▓ ▓ -" +
                 "▓ ▓ -" +
                 "▓ ▓ -" +
                 "▓▓▓▓"));
-        put('r', ASCIIGlyph.from("" +
+        f.put('r', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓ -" +
                 "▓ ▓"));
-        put('s', ASCIIGlyph.from("" +
+        f.put('s', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "▓▓▓"));
-        put('t', ASCIIGlyph.from("" +
+        f.put('t', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 " ▓ -" +
                 " ▓ -" +
                 " ▓ -" +
                 " ▓ "));
-        put('u', ASCIIGlyph.from("" +
+        f.put('u', ASCIIGlyph.from("" +
                 "   -" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓"));
-        put('ú', ASCIIGlyph.from("" +
+        f.put('ú', ASCIIGlyph.from("" +
                 " ▓▓-" +
                 "   -" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓"));
-        put('v', ASCIIGlyph.from("" +
+        f.put('v', ASCIIGlyph.from("" +
                 "     -" +
                 "▓   ▓-" +
                 "▓   ▓-" +
                 "▓   ▓-" +
                 " ▓ ▓ -" +
                 "  ▓  "));
-        put('w', ASCIIGlyph.from("" +
+        f.put('w', ASCIIGlyph.from("" +
                 "     -" +
                 "▓   ▓-" +
                 "▓   ▓-" +
                 "▓   ▓-" +
                 "▓ ▓ ▓-" +
                 "▓▓ ▓▓"));
-        put('x', ASCIIGlyph.from("" +
+        f.put('x', ASCIIGlyph.from("" +
                 "     -" +
                 "▓   ▓-" +
                 " ▓ ▓ -" +
                 "  ▓  -" +
                 " ▓ ▓ -" +
                 "▓   ▓"));
-        put('y', ASCIIGlyph.from("" +
+        f.put('y', ASCIIGlyph.from("" +
                 "   -" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 " ▓ -" +
                 " ▓ "));
-        put('z', ASCIIGlyph.from("" +
+        f.put('z', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "  ▓-" +
@@ -259,70 +262,70 @@ public final class ASCIIFonts {
                 "▓  -" +
                 "▓▓▓"));
 
-        put('1', ASCIIGlyph.from("" +
+        f.put('1', ASCIIGlyph.from("" +
                 "   -" +
                 "  ▓-" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "  ▓-" +
                 "  ▓"));
-        put('2', ASCIIGlyph.from("" +
+        f.put('2', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "  ▓-" +
                 "▓▓ -" +
                 "▓▓▓"));
-        put('3', ASCIIGlyph.from("" +
+        f.put('3', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "▓▓▓"));
-        put('4', ASCIIGlyph.from("" +
+        f.put('4', ASCIIGlyph.from("" +
                 "   -" +
                 " ▓▓-" +
                 "▓ ▓-" +
                 "▓ ▓-" +
                 "▓▓▓-" +
                 "  ▓"));
-        put('5', ASCIIGlyph.from("" +
+        f.put('5', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "▓▓▓"));
-        put('6', ASCIIGlyph.from("" +
+        f.put('6', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓  -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓▓▓"));
-        put('7', ASCIIGlyph.from("" +
+        f.put('7', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "  ▓-" +
                 "  ▓-" +
                 "  ▓"));
-        put('8', ASCIIGlyph.from("" +
+        f.put('8', ASCIIGlyph.from("" +
                 "     -" +
                 " ▓▓▓ -" +
                 "▓▓ ▓▓-" +
                 " ▓▓▓ -" +
                 "▓▓ ▓▓-" +
                 " ▓▓▓ "));
-        put('9', ASCIIGlyph.from("" +
+        f.put('9', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
                 "▓▓▓-" +
                 "  ▓-" +
                 "  ▓"));
-        put('0', ASCIIGlyph.from("" +
+        f.put('0', ASCIIGlyph.from("" +
                 "   -" +
                 "▓▓▓-" +
                 "▓ ▓-" +
@@ -330,40 +333,40 @@ public final class ASCIIFonts {
                 "▓ ▓-" +
                 "▓▓▓"));
 
-        put('.', ASCIIGlyph.from("" +
+        f.put('.', ASCIIGlyph.from("" +
                 " -" +
                 " -" +
                 " -" +
                 " -" +
                 " -" +
                 "▓"));
-        put(',', ASCIIGlyph.from("  -" +
+        f.put(',', ASCIIGlyph.from("  -" +
                 "  -" +
                 "  -" +
                 "  -" +
                 " ▓-" +
                 "▓ "));
-        put(':', ASCIIGlyph.from("   -" +
+        f.put(':', ASCIIGlyph.from("   -" +
                 "   -" +
                 " ▓ -" +
                 "   -" +
                 " ▓ -" +
                 "   "));
-        put(';', ASCIIGlyph.from("  -" +
+        f.put(';', ASCIIGlyph.from("  -" +
                 "  -" +
                 " ▓-" +
                 "  -" +
                 " ▓-" +
                 "▓ "));
 
-        put('\'', ASCIIGlyph.from("" +
+        f.put('\'', ASCIIGlyph.from("" +
                 " -" +
                 "▓-" +
                 " -" +
                 " -" +
                 " -" +
                 " "));
-        put('\"', ASCIIGlyph.from("" +
+        f.put('\"', ASCIIGlyph.from("" +
                 "   -" +
                 "▓ ▓-" +
                 "   -" +
@@ -371,35 +374,35 @@ public final class ASCIIFonts {
                 "   -" +
                 "   "));
 
-        put('+', ASCIIGlyph.from("" +
+        f.put('+', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 " ▓ -" +
                 "▓▓▓-" +
                 " ▓ -" +
                 "   "));
-        put('-', ASCIIGlyph.from("" +
+        f.put('-', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "   -" +
                 "▓▓▓-" +
                 "   -" +
                 "    "));
-        put('*', ASCIIGlyph.from("" +
+        f.put('*', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "   -" +
                 " ▓ -" +
                 "   -" +
                 "    "));
-        put('/', ASCIIGlyph.from("" +
+        f.put('/', ASCIIGlyph.from("" +
                 "     -" +
                 "    ▓-" +
                 "   ▓ -" +
                 "  ▓  -" +
                 " ▓   -" +
                 "▓     "));
-        put('=', ASCIIGlyph.from("" +
+        f.put('=', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "▓▓▓-" +
@@ -407,28 +410,28 @@ public final class ASCIIFonts {
                 "▓▓▓-" +
                 "   "));
 
-        put('(', ASCIIGlyph.from("" +
+        f.put('(', ASCIIGlyph.from("" +
                 "  -" +
                 " ▓-" +
                 "▓ -" +
                 "▓ -" +
                 "▓ -" +
                 " ▓"));
-        put(')', ASCIIGlyph.from("" +
+        f.put(')', ASCIIGlyph.from("" +
                 "  -" +
                 "▓ -" +
                 " ▓-" +
                 " ▓-" +
                 " ▓-" +
                 "▓  "));
-        put('[', ASCIIGlyph.from("" +
+        f.put('[', ASCIIGlyph.from("" +
                 "  -" +
                 "▓▓-" +
                 "▓ -" +
                 "▓ -" +
                 "▓ -" +
                 " ▓▓"));
-        put(']', ASCIIGlyph.from("" +
+        f.put(']', ASCIIGlyph.from("" +
                 "  -" +
                 "▓▓-" +
                 " ▓-" +
@@ -436,7 +439,7 @@ public final class ASCIIFonts {
                 " ▓-" +
                 "▓▓"));
 
-        put('¿', ASCIIGlyph.from("" +
+        f.put('¿', ASCIIGlyph.from("" +
                 " ▓ -" +
                 "   -" +
                 " ▓ -" +
@@ -444,7 +447,7 @@ public final class ASCIIFonts {
                 "▓ ▓-" +
                 " ▓ "));
 
-        put('?', ASCIIGlyph.from("" +
+        f.put('?', ASCIIGlyph.from("" +
                 " ▓ -" +
                 "▓ ▓-" +
                 "  ▓-" +
@@ -452,8 +455,9 @@ public final class ASCIIFonts {
                 "   -" +
                 " ▓ "));
 
-        put(' ', ASCIIGlyph.from("   -   -   -   -   "));
-    }};
+        f.put(' ', ASCIIGlyph.from("   -   -   -   -   "));
+        return f;
+    }
 
     /*
        ▓▓▓▓▓▓▓        ▓▓▓       ▓▓       ▓▓   ▓▓       ▓▓   ▓▓     ▓▓    ▓▓▓▓▓▓▓     ▓▓  ▓▓▓     ▓▓▓▓▓▓▓    ▓▓▓▓▓▓▓▓▓   ▓▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓   ▓▓▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓▓▓   ▓▓▓▓▓▓▓▓▓   ▓▓▓▓▓▓▓
@@ -476,9 +480,12 @@ public final class ASCIIFonts {
 
      */
 
-    public static ASCIIFont MODERN = new ASCIIFont() {{
+    public static final ASCIIFont MODERN = modern();
 
-        put('\0', ASCIIGlyph.from("" +
+    private static ASCIIFont modern() {
+        ASCIIFont f = new ASCIIFont();
+
+        f.put('\0', ASCIIGlyph.from("" +
                 "                 -" +
                 "  ▓▓▓▓▓▓▓▓▓▓▓▓▓  -" +
                 "▓▓▓▓▓▓     ▓▓▓▓▓▓-" +
@@ -488,7 +495,7 @@ public final class ASCIIFonts {
                 "▓▓▓▓▓▓     ▓▓▓▓▓▓-" +
                 "  ▓▓▓▓▓▓▓▓▓▓▓▓▓  "));
 
-        put('a', ASCIIGlyph.from("" +
+        f.put('a', ASCIIGlyph.from("" +
                 "             -" +
                 "     ▓▓▓     -" +
                 "    ▓▓▓▓▓    -" +
@@ -498,7 +505,7 @@ public final class ASCIIFonts {
                 "▓▓▓▓     ▓▓▓▓-" +
                 " ▓▓       ▓▓ "));
 
-        put('á', ASCIIGlyph.from("" +
+        f.put('á', ASCIIGlyph.from("" +
                 "         ▓▓▓ -" +
                 "     ▓▓▓     -" +
                 "    ▓▓▓▓▓    -" +
@@ -507,7 +514,7 @@ public final class ASCIIFonts {
                 " ▓▓▓▓▓▓▓▓▓▓▓ -" +
                 "▓▓▓▓     ▓▓▓▓-" +
                 " ▓▓       ▓▓ "));
-        put('b', ASCIIGlyph.from("" +
+        f.put('b', ASCIIGlyph.from("" +
                 "           -" +
                 " ▓▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -516,7 +523,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 " ▓▓▓▓▓▓▓▓  "));
-        put('c', ASCIIGlyph.from("" +
+        f.put('c', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -525,7 +532,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('d', ASCIIGlyph.from("" +
+        f.put('d', ASCIIGlyph.from("" +
                 "           -" +
                 "▓▓▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -534,7 +541,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓▓▓▓▓▓▓  "));
-        put('e', ASCIIGlyph.from("" +
+        f.put('e', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -543,7 +550,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓   "));
-        put('é', ASCIIGlyph.from("" +
+        f.put('é', ASCIIGlyph.from("" +
                 "        ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -552,7 +559,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓   "));
-        put('f', ASCIIGlyph.from("" +
+        f.put('f', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓▓▓-" +
                 "▓▓▓        -" +
@@ -561,7 +568,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓        -" +
                 " ▓▓        "));
-        put('g', ASCIIGlyph.from("" +
+        f.put('g', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -570,7 +577,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('h', ASCIIGlyph.from("" +
+        f.put('h', ASCIIGlyph.from("" +
                 "           -" +
                 " ▓▓     ▓▓ -" +
                 "▓▓▓     ▓▓▓-" +
@@ -579,7 +586,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 " ▓▓     ▓▓ "));
-        put('i', ASCIIGlyph.from("" +
+        f.put('i', ASCIIGlyph.from("" +
                 "   -" +
                 " ▓▓-" +
                 "▓▓▓-" +
@@ -588,7 +595,7 @@ public final class ASCIIFonts {
                 "▓▓▓-" +
                 "▓▓▓-" +
                 "▓▓ "));
-        put('í', ASCIIGlyph.from("" +
+        f.put('í', ASCIIGlyph.from("" +
                 " ▓▓-" +
                 "   -" +
                 "▓▓▓-" +
@@ -597,7 +604,7 @@ public final class ASCIIFonts {
                 "▓▓▓-" +
                 "▓▓▓-" +
                 "▓▓ "));
-        put('j', ASCIIGlyph.from("" +
+        f.put('j', ASCIIGlyph.from("" +
                 "           -" +
                 "        ▓▓ -" +
                 "        ▓▓▓-" +
@@ -606,7 +613,7 @@ public final class ASCIIFonts {
                 " ▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 " ▓▓▓▓▓▓▓▓▓ "));
-        put('k', ASCIIGlyph.from("" +
+        f.put('k', ASCIIGlyph.from("" +
                 "           -" +
                 " ▓▓     ▓▓ -" +
                 "▓▓▓    ▓▓▓▓-" +
@@ -615,7 +622,7 @@ public final class ASCIIFonts {
                 "▓▓▓   ▓▓▓  -" +
                 "▓▓▓    ▓▓▓▓-" +
                 " ▓▓     ▓▓ "));
-        put('l', ASCIIGlyph.from("" +
+        f.put('l', ASCIIGlyph.from("" +
                 "           -" +
                 " ▓▓        -" +
                 "▓▓▓        -" +
@@ -624,7 +631,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓        -" +
                 " ▓▓▓▓▓▓▓▓▓▓"));
-        put('m', ASCIIGlyph.from("" +
+        f.put('m', ASCIIGlyph.from("" +
                 "             -" +
                 " ▓▓       ▓▓ -" +
                 "▓▓▓▓     ▓▓▓▓-" +
@@ -633,7 +640,7 @@ public final class ASCIIFonts {
                 "▓▓▓  ▓▓▓  ▓▓▓-" +
                 "▓▓▓       ▓▓▓-" +
                 " ▓▓       ▓▓ "));
-        put('n', ASCIIGlyph.from("" +
+        f.put('n', ASCIIGlyph.from("" +
                 "           -" +
                 " ▓▓     ▓▓ -" +
                 "▓▓▓▓    ▓▓▓-" +
@@ -642,7 +649,7 @@ public final class ASCIIFonts {
                 "▓▓▓  ▓▓ ▓▓▓-" +
                 "▓▓▓   ▓▓▓▓▓-" +
                 " ▓▓     ▓▓ "));
-        put('o', ASCIIGlyph.from("" +
+        f.put('o', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -651,7 +658,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('ó', ASCIIGlyph.from("" +
+        f.put('ó', ASCIIGlyph.from("" +
                 "       ▓▓▓ -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -660,7 +667,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('p', ASCIIGlyph.from("" +
+        f.put('p', ASCIIGlyph.from("" +
                 "           -" +
                 " ▓▓▓▓▓▓▓▓▓ -" +
                 "▓▓▓     ▓▓▓-" +
@@ -669,7 +676,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓        -" +
                 " ▓▓        "));
-        put('q', ASCIIGlyph.from("" +
+        f.put('q', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -678,7 +685,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓    ▓▓▓ -" +
                 " ▓▓▓▓▓▓  ▓▓"));
-        put('r', ASCIIGlyph.from("" +
+        f.put('r', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -687,7 +694,7 @@ public final class ASCIIFonts {
                 "▓▓▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
                 " ▓▓     ▓▓ "));
-        put('s', ASCIIGlyph.from("" +
+        f.put('s', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓▓▓-" +
                 "▓▓▓        -" +
@@ -696,7 +703,7 @@ public final class ASCIIFonts {
                 "        ▓▓▓-" +
                 "        ▓▓▓-" +
                 "▓▓▓▓▓▓▓▓▓  "));
-        put('t', ASCIIGlyph.from("" +
+        f.put('t', ASCIIGlyph.from("" +
                 "           -" +
                 "▓▓▓▓▓▓▓▓▓▓▓-" +
                 "    ▓▓▓    -" +
@@ -705,7 +712,7 @@ public final class ASCIIFonts {
                 "    ▓▓▓    -" +
                 "    ▓▓▓    -" +
                 "    ▓▓▓    "));
-        put('u', ASCIIGlyph.from("" +
+        f.put('u', ASCIIGlyph.from("" +
                 "          -" +
                 " ▓▓    ▓▓ -" +
                 "▓▓▓    ▓▓▓-" +
@@ -714,7 +721,7 @@ public final class ASCIIFonts {
                 "▓▓▓    ▓▓▓-" +
                 "▓▓▓    ▓▓▓-" +
                 "  ▓▓▓▓▓▓  "));
-        put('ú', ASCIIGlyph.from("" +
+        f.put('ú', ASCIIGlyph.from("" +
                 "     ▓▓▓  -" +
                 " ▓▓    ▓▓ -" +
                 "▓▓▓    ▓▓▓-" +
@@ -723,7 +730,7 @@ public final class ASCIIFonts {
                 "▓▓▓    ▓▓▓-" +
                 "▓▓▓    ▓▓▓-" +
                 "  ▓▓▓▓▓▓  "));
-        put('v', ASCIIGlyph.from("" +
+        f.put('v', ASCIIGlyph.from("" +
                 "          -" +
                 "▓▓      ▓▓-" +
                 "▓▓▓    ▓▓▓-" +
@@ -732,7 +739,7 @@ public final class ASCIIFonts {
                 "▓▓▓    ▓▓▓-" +
                 " ▓▓▓  ▓▓▓ -" +
                 "   ▓▓▓▓   "));
-        put('w', ASCIIGlyph.from("" +
+        f.put('w', ASCIIGlyph.from("" +
                 "             -" +
                 " ▓▓       ▓▓ -" +
                 "▓▓▓       ▓▓▓-" +
@@ -741,7 +748,7 @@ public final class ASCIIFonts {
                 "▓▓▓▓▓▓ ▓▓▓▓▓▓-" +
                 "▓▓▓▓     ▓▓▓▓-" +
                 " ▓▓       ▓▓ "));
-        put('x', ASCIIGlyph.from("" +
+        f.put('x', ASCIIGlyph.from("" +
                 "           -" +
                 "▓▓▓     ▓▓▓-" +
                 " ▓▓▓   ▓▓▓ -" +
@@ -750,7 +757,7 @@ public final class ASCIIFonts {
                 "  ▓▓▓ ▓▓▓  -" +
                 " ▓▓▓   ▓▓▓ -" +
                 "▓▓▓     ▓▓▓"));
-        put('y', ASCIIGlyph.from("" +
+        f.put('y', ASCIIGlyph.from("" +
                 "           -" +
                 "▓▓▓     ▓▓▓-" +
                 " ▓▓▓   ▓▓▓ -" +
@@ -759,7 +766,7 @@ public final class ASCIIFonts {
                 "    ▓▓▓    -" +
                 "    ▓▓▓    -" +
                 "    ▓▓     "));
-        put('z', ASCIIGlyph.from("" +
+        f.put('z', ASCIIGlyph.from("" +
                 "           -" +
                 "▓▓▓▓▓▓▓▓▓▓▓-" +
                 "        ▓▓▓-" +
@@ -768,7 +775,7 @@ public final class ASCIIFonts {
                 "  ▓▓▓      -" +
                 "▓▓▓        -" +
                 "▓▓▓▓▓▓▓▓▓▓▓"));
-        put('ñ', ASCIIGlyph.from("" +
+        f.put('ñ', ASCIIGlyph.from("" +
                 "   ▓▓ ▓▓   -" +
                 " ▓▓  ▓▓ ▓▓ -" +
                 "▓▓▓▓  ▓ ▓▓▓-" +
@@ -778,7 +785,7 @@ public final class ASCIIFonts {
                 "▓▓▓   ▓▓▓▓▓-" +
                 " ▓▓     ▓▓ "));
 
-        put('1', ASCIIGlyph.from("" +
+        f.put('1', ASCIIGlyph.from("" +
                 "         -" +
                 "    ▓▓▓▓ -" +
                 "  ▓▓▓ ▓▓▓-" +
@@ -787,7 +794,7 @@ public final class ASCIIFonts {
                 "      ▓▓▓-" +
                 "      ▓▓▓-" +
                 "      ▓▓ "));
-        put('2', ASCIIGlyph.from("" +
+        f.put('2', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -796,7 +803,7 @@ public final class ASCIIFonts {
                 "▓▓▓        -" +
                 "▓▓▓        -" +
                 "  ▓▓▓▓▓▓▓▓ "));
-        put('3', ASCIIGlyph.from("" +
+        f.put('3', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -805,7 +812,7 @@ public final class ASCIIFonts {
                 "        ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('4', ASCIIGlyph.from("" +
+        f.put('4', ASCIIGlyph.from("" +
                 "          -" +
                 "       ▓▓ -" +
                 "     ▓▓▓▓▓-" +
@@ -814,7 +821,7 @@ public final class ASCIIFonts {
                 "▓▓▓▓▓▓▓▓▓ -" +
                 "       ▓▓▓-" +
                 "       ▓▓ "));
-        put('5', ASCIIGlyph.from("" +
+        f.put('5', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓▓ -" +
                 "▓▓▓        -" +
@@ -823,7 +830,7 @@ public final class ASCIIFonts {
                 "        ▓▓▓-" +
                 "        ▓▓▓-" +
                 "▓▓▓▓▓▓▓▓▓  "));
-        put('6', ASCIIGlyph.from("" +
+        f.put('6', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -832,7 +839,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('7', ASCIIGlyph.from("" +
+        f.put('7', ASCIIGlyph.from("" +
                 "           -" +
                 "▓▓▓▓▓▓▓▓▓  -" +
                 "        ▓▓▓-" +
@@ -841,7 +848,7 @@ public final class ASCIIFonts {
                 "        ▓▓▓-" +
                 "        ▓▓▓-" +
                 "        ▓▓ "));
-        put('8', ASCIIGlyph.from("" +
+        f.put('8', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -850,7 +857,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('9', ASCIIGlyph.from("" +
+        f.put('9', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -859,7 +866,7 @@ public final class ASCIIFonts {
                 "        ▓▓▓-" +
                 "        ▓▓▓-" +
                 "        ▓▓ "));
-        put('0', ASCIIGlyph.from("" +
+        f.put('0', ASCIIGlyph.from("" +
                 "           -" +
                 "  ▓▓▓▓▓▓▓  -" +
                 "▓▓▓     ▓▓▓-" +
@@ -868,7 +875,7 @@ public final class ASCIIFonts {
                 "▓▓▓     ▓▓▓-" +
                 "▓▓▓     ▓▓▓-" +
                 "  ▓▓▓▓▓▓▓  "));
-        put('¿', ASCIIGlyph.from("" +
+        f.put('¿', ASCIIGlyph.from("" +
                 "     ▓▓▓    -" +
                 "            -" +
                 "     ▓▓▓    -" +
@@ -877,7 +884,7 @@ public final class ASCIIFonts {
                 "▓▓▓         -" +
                 " ▓▓▓     ▓▓▓-" +
                 "    ▓▓▓▓▓▓  "));
-        put('?', ASCIIGlyph.from("" +
+        f.put('?', ASCIIGlyph.from("" +
                 "  ▓▓▓▓▓▓    -" +
                 "▓▓▓     ▓▓▓ -" +
                 "         ▓▓▓-" +
@@ -887,7 +894,7 @@ public final class ASCIIFonts {
                 "            -" +
                 "    ▓▓▓     "));
 
-        put('.', ASCIIGlyph.from("" +
+        f.put('.', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "   -" +
@@ -896,7 +903,7 @@ public final class ASCIIFonts {
                 "   -" +
                 "   -" +
                 "▓▓▓"));
-        put(',', ASCIIGlyph.from("" +
+        f.put(',', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "   -" +
@@ -905,7 +912,7 @@ public final class ASCIIFonts {
                 "   -" +
                 " ▓▓-" +
                 "▓▓ "));
-        put(':', ASCIIGlyph.from("" +
+        f.put(':', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "▓▓▓-" +
@@ -913,7 +920,7 @@ public final class ASCIIFonts {
                 "   -" +
                 "   -" +
                 "▓▓▓-"));
-        put(';', ASCIIGlyph.from("" +
+        f.put(';', ASCIIGlyph.from("" +
                 "   -" +
                 "   -" +
                 "   -" +
@@ -923,7 +930,7 @@ public final class ASCIIFonts {
                 " ▓▓-" +
                 "▓▓ "));
 
-        put('\'', ASCIIGlyph.from("" +
+        f.put('\'', ASCIIGlyph.from("" +
                 "▓▓▓-" +
                 " ▓▓-" +
                 "   -" +
@@ -932,7 +939,7 @@ public final class ASCIIFonts {
                 "   -" +
                 "   -" +
                 "   "));
-        put('\"', ASCIIGlyph.from("" +
+        f.put('\"', ASCIIGlyph.from("" +
                 "▓▓▓ ▓▓▓-" +
                 " ▓▓  ▓▓-" +
                 "       -" +
@@ -942,7 +949,7 @@ public final class ASCIIFonts {
                 "       -" +
                 "       "));
 
-        put('+', ASCIIGlyph.from("" +
+        f.put('+', ASCIIGlyph.from("" +
                 "           -" +
                 "           -" +
                 "    ▓▓▓    -" +
@@ -951,7 +958,7 @@ public final class ASCIIFonts {
                 "    ▓▓▓    -" +
                 "    ▓▓▓    -" +
                 "           "));
-        put('-', ASCIIGlyph.from("" +
+        f.put('-', ASCIIGlyph.from("" +
                 "           -" +
                 "           -" +
                 "           -" +
@@ -960,7 +967,7 @@ public final class ASCIIFonts {
                 "           -" +
                 "           -" +
                 "           "));
-        put('*', ASCIIGlyph.from("" +
+        f.put('*', ASCIIGlyph.from("" +
                 "               -" +
                 "               -" +
                 " ▓▓    ▓    ▓▓ -" +
@@ -969,7 +976,7 @@ public final class ASCIIFonts {
                 "   ▓▓ ▓▓▓ ▓▓   -" +
                 " ▓▓    ▓    ▓▓ -" +
                 "               "));
-        put('/', ASCIIGlyph.from("" +
+        f.put('/', ASCIIGlyph.from("" +
                 "         -" +
                 "      ▓▓▓-" +
                 "     ▓▓▓ -" +
@@ -978,7 +985,7 @@ public final class ASCIIFonts {
                 "  ▓▓▓    -" +
                 " ▓▓▓     -" +
                 "▓▓▓      "));
-        put('=', ASCIIGlyph.from("" +
+        f.put('=', ASCIIGlyph.from("" +
                 "          -" +
                 "          -" +
                 "▓▓▓▓▓▓▓▓▓▓-" +
@@ -987,7 +994,7 @@ public final class ASCIIFonts {
                 "          -" +
                 "          "));
 
-        put('(', ASCIIGlyph.from("" +
+        f.put('(', ASCIIGlyph.from("" +
                 "      -" +
                 "   ▓▓▓-" +
                 " ▓▓▓  -" +
@@ -996,7 +1003,7 @@ public final class ASCIIFonts {
                 "▓▓▓   -" +
                 " ▓▓▓  -" +
                 "   ▓▓▓"));
-        put(')', ASCIIGlyph.from("" +
+        f.put(')', ASCIIGlyph.from("" +
                 "      -" +
                 "▓▓▓   -" +
                 "  ▓▓▓ -" +
@@ -1005,7 +1012,7 @@ public final class ASCIIFonts {
                 "   ▓▓▓-" +
                 "  ▓▓▓ -" +
                 "▓▓▓    "));
-        put('[', ASCIIGlyph.from("" +
+        f.put('[', ASCIIGlyph.from("" +
                 "      -" +
                 " ▓▓▓▓▓-" +
                 "▓▓▓   -" +
@@ -1014,7 +1021,7 @@ public final class ASCIIFonts {
                 "▓▓▓   -" +
                 "▓▓▓   -" +
                 " ▓▓▓▓▓ "));
-        put(']', ASCIIGlyph.from("" +
+        f.put(']', ASCIIGlyph.from("" +
                 "      -" +
                 "▓▓▓▓▓ -" +
                 "   ▓▓▓-" +
@@ -1024,8 +1031,8 @@ public final class ASCIIFonts {
                 "   ▓▓▓-" +
                 "▓▓▓▓▓  "));
 
-        put(' ', ASCIIGlyph.from("       -       -       -       -       -       -       -       "));
-
-    }};
+        f.put(' ', ASCIIGlyph.from("       -       -       -       -       -       -       -       "));
+        return f;
+    }
 
 }

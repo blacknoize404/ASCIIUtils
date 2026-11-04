@@ -1,4 +1,4 @@
-package ASCIIUtils;
+package io.github.blacknoize404.asciiutils;
 
 import java.util.Scanner;
 
