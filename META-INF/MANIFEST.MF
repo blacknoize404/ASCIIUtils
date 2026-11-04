@@ -1,3 +1,2 @@
 Manifest-Version: 1.0
-AxieUtils.Exercise03-Class: io.github.blacknoize404.asciiutils.App
-
+Main-Class: io.github.blacknoize404.asciiutils.Cli

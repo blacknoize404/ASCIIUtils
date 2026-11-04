@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.blacknoize404</groupId>
     <artifactId>ASCIIUtils</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3</version>
     <name>ASCIIUtils</name>
     <description>Librería utilitaria para generar texto decorado en ASCII a partir de cadenas de texto generales.</description>
     <url>https://blacknoize404.github.io</url>
@@ -54,6 +54,18 @@
                 <version>3.6.1</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>io.github.blacknoize404.asciiutils.Cli</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>

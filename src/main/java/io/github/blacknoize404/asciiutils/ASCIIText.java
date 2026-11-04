@@ -1,6 +1,7 @@
 package io.github.blacknoize404.asciiutils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,6 +43,40 @@ public class ASCIIText {
         LEFT,
         CENTER,
         RIGHT,
+    }
+
+    /**
+     * Modo de composición de los glifos (los layouts de FIGlet).
+     * <table>
+     *     <caption>Modos de smushing</caption>
+     *     <tr><td>FULL_WIDTH</td><td>Sin solape: glifos enteros más kerning</td></tr>
+     *     <tr><td>KERNING</td><td>Solapa mientras choquen espacios</td></tr>
+     *     <tr><td>UNIVERSAL</td><td>Cualquier choque: gana el carácter de la derecha</td></tr>
+     *     <tr><td>CONTROLLED</td><td>Aplica las reglas FIGlet de {@link #setSmushRules(int)}</td></tr>
+     * </table>
+     */
+    public enum SmushMode {
+        FULL_WIDTH,
+        KERNING,
+        UNIVERSAL,
+        CONTROLLED,
+    }
+
+    /**
+     * Rotación aplicada a la representación final.
+     * <table>
+     *     <caption>Rotaciones disponibles</caption>
+     *     <tr><td>NONE</td><td>Sin rotación</td></tr>
+     *     <tr><td>CLOCKWISE</td><td>90° en el sentido del reloj</td></tr>
+     *     <tr><td>COUNTERCLOCKWISE</td><td>90° contra el reloj</td></tr>
+     *     <tr><td>UPSIDE_DOWN</td><td>180°</td></tr>
+     * </table>
+     */
+    public enum Rotation {
+        NONE,
+        CLOCKWISE,
+        COUNTERCLOCKWISE,
+        UPSIDE_DOWN,
     }
 
     /**
@@ -128,6 +163,38 @@ public class ASCIIText {
      * Si hay que espejar el texto verticalmente.
      */
     private boolean flipVertical = false;
+
+    /**
+     * Modo de smushing para componer los glifos.
+     */
+    private SmushMode smushMode = SmushMode.FULL_WIDTH;
+
+    /**
+     * Reglas de smushing para {@link SmushMode#CONTROLLED}
+     * ({@code -1} = usar las que declare la fuente, o todas).
+     */
+    private int smushRules = -1;
+
+    /**
+     * Prefijo ANSI de color aplicado a cada línea de salida ({@code null} = sin).
+     */
+    private String ansiColor = null;
+
+    /**
+     * Gradiente RGB por columnas para la tinta: {@code {r1,g1,b1,r2,g2,b2}}
+     * ({@code null} = sin).
+     */
+    private int[] gradient = null;
+
+    /**
+     * Carácter de fondo personalizado ({@code null} = usar {@link #background}).
+     */
+    private Character customBackground = null;
+
+    /**
+     * Rotación aplicada a la representación ({@link Rotation#NONE} = ninguna).
+     */
+    private Rotation rotation = Rotation.NONE;
 
     /**
      * Construye una nueva instancia con una fuente ASCII dada.
@@ -220,8 +287,9 @@ public class ASCIIText {
                 StringBuilder piece = new StringBuilder();
                 int pw = cur.length() == 0 ? 0 : curW + sep;
                 int i = 0;
-                while (i < word.length() && pw + font.getGlyph(word.charAt(i)).width() + (piece.length() == 0 ? 0 : kerning) <= maxWidth) {
-                    ASCIIGlyph g = font.getGlyph(word.charAt(i));
+                ASCIIGlyph g;
+                while (i < word.length() && (g = font.getGlyph(word.charAt(i))) != null
+                        && pw + g.width() + (piece.length() == 0 ? 0 : kerning) <= maxWidth) {
                     pw += g.width() + (piece.length() == 0 ? 0 : kerning);
                     piece.append(word.charAt(i));
                     i++;
@@ -270,9 +338,14 @@ public class ASCIIText {
         }
 
         String[] lines = body.split("\n", -1);
-        int[] widths = lineWidths(body);
-
         int band = font.getHeight();
+
+        if (smushMode != SmushMode.FULL_WIDTH) {
+            fillSmushed(lines, band);
+            return;
+        }
+
+        int[] widths = lineWidths(body);
         this.matrix = new char[this.height][this.width];
 
         for (int i = 0; i < lines.length; i++) {
@@ -284,13 +357,100 @@ public class ASCIIText {
                 case RIGHT -> Math.max(0, this.width - widths[i]);
             };
 
-            for (char character : lines[i].toLowerCase().toCharArray()) {
+            String line = font.isOnlyLowerCases() ? lines[i].toLowerCase() : lines[i];
+            for (char character : line.toCharArray()) {
                 ASCIIGlyph glyph = font.getGlyph(character);
                 if (glyph != null) {
                     carriage += write(glyph, row0, carriage, band);
                 }
             }
         }
+    }
+
+    /**
+     * Compone el texto fusionando glifos según el {@link #smushMode}: el solape
+     * de cada glifo es el mínimo que permiten todas sus filas (como FIGlet).
+     * El ancho real solo se conoce al componer, así que se asigna aquí.
+     *
+     * @param lines las líneas del texto efectivo
+     * @param band  la altura de banda de la fuente
+     */
+    private void fillSmushed(String[] lines, int band) {
+        int rules = smushRules >= 0 ? smushRules
+                : font.getSmushRules() > 0 ? font.getSmushRules() : Smusher.RULE_ALL;
+        Smusher.Mode mode = switch (smushMode) {
+            case KERNING -> Smusher.Mode.KERNING;
+            case UNIVERSAL -> Smusher.Mode.UNIVERSAL;
+            case CONTROLLED -> Smusher.Mode.CONTROLLED;
+            default -> Smusher.Mode.KERNING;
+        };
+        char hb = font.getHardBlank();
+
+        // Primera pasada: compone cada línea y mide el ancho real
+        List<char[][]> rendered = new ArrayList<>();
+        List<int[]> lengths = new ArrayList<>();
+        int maxW = 0;
+        for (String line : lines) {
+            String src = font.isOnlyLowerCases() ? line.toLowerCase() : line;
+            int bound = wordWidth(line) + 1;
+            char[][] rows = new char[band][Math.max(1, bound)];
+            int[] lens = new int[band];
+            for (char c : src.toCharArray()) {
+                ASCIIGlyph g = font.getGlyph(c);
+                if (g == null) continue;
+                char[][] data = g.toArray();
+                int overlap = Integer.MAX_VALUE;
+                for (int r = 0; r < Math.min(data.length, band); r++) {
+                    if (data[r].length > 0) {
+                        overlap = Math.min(overlap, Smusher.smushAmount(rows[r], lens[r], inked(data[r]), mode, rules, hb));
+                    }
+                }
+                if (overlap == Integer.MAX_VALUE) overlap = 0;
+                for (int r = 0; r < Math.min(data.length, band); r++) {
+                    if (data[r].length > 0) {
+                        lens[r] = Smusher.merge(rows[r], lens[r], inked(data[r]), overlap, mode, rules, hb);
+                    }
+                }
+            }
+            rendered.add(rows);
+            lengths.add(lens);
+            for (int l : lens) maxW = Math.max(maxW, l);
+        }
+        this.width = maxW;
+
+        // Segunda pasada: vuelca en la matriz con la alineación
+        this.matrix = new char[this.height][Math.max(1, maxW)];
+        for (int i = 0; i < rendered.size(); i++) {
+            char[][] rows = rendered.get(i);
+            int[] lens = lengths.get(i);
+            int lineW = 0;
+            for (int l : lens) lineW = Math.max(lineW, l);
+            int off = switch (alignment) {
+                case LEFT -> 0;
+                case CENTER -> Math.max(0, (maxW - lineW) / 2);
+                case RIGHT -> Math.max(0, maxW - lineW);
+            };
+            int row0 = i * (band + lineHeight);
+            for (int r = 0; r < band && row0 + r < matrix.length; r++) {
+                for (int c = 0; c < lens[r] && off + c < maxW; c++) {
+                    matrix[row0 + r][off + c] = rows[r][c];
+                }
+            }
+        }
+    }
+
+    /**
+     * Devuelve la fila del glifo con la tinta aplicada si {@link #ink} está
+     * activa (sustituye al {@code '▓'}).
+     *
+     * @param row la fila original
+     * @return la fila con tinta
+     */
+    private char[] inked(char[] row) {
+        if (ink == 0) return row;
+        char[] out = row.clone();
+        for (int i = 0; i < out.length; i++) if (out[i] == '▓') out[i] = ink;
+        return out;
     }
 
     /**
@@ -326,9 +486,11 @@ public class ASCIIText {
             return;
         }
         int lines = body.split("\n", -1).length;
-        int maxW = 0;
-        for (int w : lineWidths(body)) maxW = Math.max(maxW, w);
-        this.width = maxW;
+        if (smushMode == SmushMode.FULL_WIDTH) {
+            int maxW = 0;
+            for (int w : lineWidths(body)) maxW = Math.max(maxW, w);
+            this.width = maxW;
+        }
         this.height = font.getHeight() * lines + (lines - 1) * lineHeight;
     }
 
@@ -506,6 +668,7 @@ public class ASCIIText {
      * @return dicho carácter
      */
     public Character getBackground() {
+        if (customBackground != null) return customBackground;
         return switch (background) {
             case BLANK -> ' ';
             case PERCENT25 -> '░';
@@ -522,8 +685,21 @@ public class ASCIIText {
      * @return esta misma instancia (encadenable)
      */
     public ASCIIText setBackground(BackgroundType background) {
-        if (this.background == background) return this;
+        if (this.background == background && this.customBackground == null) return this;
         this.background = background;
+        this.customBackground = null;
+        this.isModified = true;
+        return this;
+    }
+
+    /**
+     * Asigna un carácter de fondo personalizado con el que rellenar los huecos.
+     *
+     * @param background dicho carácter
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText setBackground(char background) {
+        this.customBackground = background;
         this.isModified = true;
         return this;
     }
@@ -663,6 +839,153 @@ public class ASCIIText {
         return this;
     }
 
+    /**
+     * Obtiene el modo de smushing actual.
+     *
+     * @return dicho modo
+     */
+    public SmushMode getSmushMode() {
+        return smushMode;
+    }
+
+    /**
+     * Asigna el modo de smushing: cómo se solapan los glifos al componer.
+     * En cualquier modo distinto de {@link SmushMode#FULL_WIDTH} se ignora
+     * el {@link #setKerning(int)} y el ancho se conoce solo tras renderizar.
+     *
+     * @param smushMode dicho modo
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText setSmushMode(SmushMode smushMode) {
+        if (this.smushMode == smushMode) return this;
+        this.smushMode = smushMode;
+        this.isModified = true;
+        updateTextSize();
+        return this;
+    }
+
+    /**
+     * Obtiene la máscara de reglas de smushing ({@code -1} = auto).
+     *
+     * @return dicha máscara
+     */
+    public int getSmushRules() {
+        return smushRules;
+    }
+
+    /**
+     * Asigna la máscara de reglas para {@link SmushMode#CONTROLLED}
+     * (bits estilo FIGlet: 1=iguales, 2=subrayado, 4=jerarquía, 8=parejas,
+     * 16=X grande, 32=hardblank). {@code -1} usa las de la fuente o todas.
+     *
+     * @param smushRules dicha máscara
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText setSmushRules(int smushRules) {
+        if (this.smushRules == smushRules) return this;
+        this.smushRules = smushRules;
+        this.isModified = true;
+        return this;
+    }
+
+    /**
+     * El prefijo ANSI de color ({@code null} = sin color).
+     *
+     * @return dicho prefijo
+     */
+    public String getAnsiColor() {
+        return ansiColor;
+    }
+
+    /**
+     * Colorea la salida con un código ANSI (p.ej. {@code Ansi.RED} o
+     * {@code Ansi.rgb(255,128,0)}). Se aplica por línea con reset al final.
+     *
+     * @param ansiCode el prefijo ANSI, o {@code null} para quitarlo
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText setColor(String ansiCode) {
+        this.ansiColor = ansiCode;
+        this.isModified = true;
+        return this;
+    }
+
+    /**
+     * Define un gradiente horizontal de color para la tinta (truecolor ANSI),
+     * interpolado por columnas entre los dos RGB dados.
+     *
+     * @param r1 rojo inicial   {@code 0-255}
+     * @param g1 verde inicial  {@code 0-255}
+     * @param b1 azul inicial   {@code 0-255}
+     * @param r2 rojo final     {@code 0-255}
+     * @param g2 verde final    {@code 0-255}
+     * @param b2 azul final     {@code 0-255}
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText setGradient(int r1, int g1, int b1, int r2, int g2, int b2) {
+        this.gradient = new int[]{r1, g1, b1, r2, g2, b2};
+        this.isModified = true;
+        return this;
+    }
+
+    /**
+     * Quita el gradiente de color (el {@link #setColor(String)} sigue aplicando).
+     *
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText clearGradient() {
+        if (this.gradient == null) return this;
+        this.gradient = null;
+        this.isModified = true;
+        return this;
+    }
+
+    /**
+     * Indica si el texto se rota.
+     *
+     * @return dicho valor
+     * @deprecated usar {@link #getRotation()}
+     */
+    @Deprecated
+    public boolean isRotated() {
+        return rotation != Rotation.NONE;
+    }
+
+    /**
+     * Activa o desactiva la rotación de 90° en sentido contrario al reloj.
+     *
+     * @param rotated dicho valor
+     * @return esta misma instancia (encadenable)
+     * @deprecated usar {@link #setRotation(Rotation)}
+     */
+    @Deprecated
+    public ASCIIText setRotated(boolean rotated) {
+        return setRotation(rotated ? Rotation.COUNTERCLOCKWISE : Rotation.NONE);
+    }
+
+    /**
+     * Obtiene la rotación aplicada a la representación.
+     *
+     * @return dicha rotación
+     */
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    /**
+     * Asigna la rotación de la representación: se aplica tras componer la
+     * matriz, antes del volteo y del marco.
+     *
+     * @param rotation dicha rotación
+     * @return esta misma instancia (encadenable)
+     */
+    public ASCIIText setRotation(Rotation rotation) {
+        if (this.rotation == rotation) return this;
+        this.rotation = rotation;
+        this.isModified = true;
+        return this;
+    }
+
     // ------------------------------------------------------------------
     // Salida
     // ------------------------------------------------------------------
@@ -692,8 +1015,33 @@ public class ASCIIText {
 
         fillMatrix();
 
-        // Espejados sobre la matriz
-        char[][] m = matrix;
+        // Transformaciones sobre una copia (la matriz queda intacta)
+        char[][] m = new char[matrix.length][];
+        for (int i = 0; i < matrix.length; i++) m[i] = matrix[i].clone();
+        if (rotation != Rotation.NONE && m.length > 0 && m[0].length > 0) {
+            char[][] t = switch (rotation) {
+                case CLOCKWISE -> {
+                    char[][] r90 = new char[m[0].length][m.length];
+                    for (int r = 0; r < m.length; r++)
+                        for (int c = 0; c < m[r].length; c++) r90[c][m.length - 1 - r] = m[r][c];
+                    yield r90;
+                }
+                case COUNTERCLOCKWISE -> {
+                    char[][] r90 = new char[m[0].length][m.length];
+                    for (int r = 0; r < m.length; r++)
+                        for (int c = 0; c < m[r].length; c++) r90[m[0].length - 1 - c][r] = m[r][c];
+                    yield r90;
+                }
+                case UPSIDE_DOWN -> {
+                    char[][] r180 = new char[m.length][m[0].length];
+                    for (int r = 0; r < m.length; r++)
+                        for (int c = 0; c < m[r].length; c++) r180[m.length - 1 - r][m[0].length - 1 - c] = m[r][c];
+                    yield r180;
+                }
+                default -> m;
+            };
+            m = t;
+        }
         if (flipHorizontal) {
             for (char[] row : m) {
                 for (int i = 0, j = row.length - 1; i < j; i++, j--) {
@@ -709,17 +1057,29 @@ public class ASCIIText {
 
         StringBuilder sb = new StringBuilder();
         char bg = getBackground();
+        char hb = font.getHardBlank();
         for (int r = 0; r < m.length; r++) {
-            for (char c : m[r]) {
-                sb.append(c == '\0' ? bg : c);
+            if (ansiColor != null) sb.append(ansiColor);
+            for (int c = 0; c < m[r].length; c++) {
+                char ch = m[r][c];
+                if (gradient != null && ch != '\0' && ch != ' ' && ch != hb && m[r].length > 1) {
+                    double t = (double) c / (m[r].length - 1);
+                    sb.append(Ansi.rgb(
+                            gradient[0] + (int) ((gradient[3] - gradient[0]) * t),
+                            gradient[1] + (int) ((gradient[4] - gradient[1]) * t),
+                            gradient[2] + (int) ((gradient[5] - gradient[2]) * t)));
+                }
+                sb.append(ch == '\0' ? bg : ch == hb ? ' ' : ch);
             }
+            if (ansiColor != null || gradient != null) sb.append(Ansi.RESET);
             if (r < m.length - 1) sb.append('\n');
         }
 
         String out = sb.toString();
-        if (framed && width > 0) {
-            String top = "┌" + "─".repeat(width) + "┐";
-            String bottom = "└" + "─".repeat(width) + "┘";
+        if (framed && m.length > 0 && m[0].length > 0) {
+            int fw = m[0].length;
+            String top = "┌" + "─".repeat(fw) + "┐";
+            String bottom = "└" + "─".repeat(fw) + "┘";
             StringBuilder fb = new StringBuilder(top).append('\n');
             for (String line : out.split("\n", -1)) {
                 fb.append('│').append(line).append('│').append('\n');
@@ -730,6 +1090,42 @@ public class ASCIIText {
         this.representation = out;
         this.isModified = false;
         return this.representation;
+    }
+
+    /**
+     * Las líneas de la representación como lista inmutable, sin códigos ANSI
+     * (los escapa si hay color o gradiente activos).
+     *
+     * @return dicha lista
+     */
+    public List<String> lines() {
+        ensureMatrix();
+        List<String> out = new ArrayList<>();
+        for (String l : toStringRepresentation().split("\n", -1)) {
+            out.add(l.replaceAll("\\[[0-9;]*m", ""));
+        }
+        return Collections.unmodifiableList(out);
+    }
+
+    /**
+     * Escribe la representación en un writer.
+     *
+     * @param writer el destino
+     * @throws java.io.IOException si falla la escritura
+     */
+    public void write(java.io.Writer writer) throws java.io.IOException {
+        writer.write(toStringRepresentation());
+        writer.write('\n');
+    }
+
+    /**
+     * Guarda la representación en un fichero de texto (UTF-8).
+     *
+     * @param path el fichero destino
+     * @throws java.io.IOException si falla la escritura
+     */
+    public void save(java.nio.file.Path path) throws java.io.IOException {
+        java.nio.file.Files.writeString(path, toStringRepresentation() + "\n", java.nio.charset.StandardCharsets.UTF_8);
     }
 
     /**
