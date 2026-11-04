@@ -76,8 +76,6 @@ java -jar ASCIIUtils.jar [opciones] texto...
   --out <fichero>                         --help
 ```
 
-Consumido por: [MazeGame](../MazeGame/README.md).
-
 ## Documentación
 
 Ver [docs/index.md](docs/index.md) y [CHANGELOG.md](CHANGELOG.md).
